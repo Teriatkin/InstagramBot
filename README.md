@@ -1,2 +1,3 @@
 # InstagramBot
-This bot is subscribe to the specified accounts
+This bot is subscribing to the specified accounts;
+Unsubscribing from all your friends
