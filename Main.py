@@ -1,21 +1,11 @@
-import IB
+# можна добавити ак в список
+follower = []
+# логін та пароль
+username = ""
+password = ""
 
-
-# Instagram
-username = "Твій логін"
-password = "Твій пароль"
-follower = ['explore/people/suggested']
-
-ig = IB.InstagramBot(username, password, *follower)
-ig.login()
-ig.unsubscribe()
-
-
-
-
-
-
-
-
-
-
+# Тут прописуємо шлях до текстового документу з майбутніми підписниками
+handle = open("AK.txt", "r")
+for line in handle:
+    follower.append(line)
+handle.close()
