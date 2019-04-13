@@ -1,18 +1,22 @@
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 import time
+import random
 
 
 class InstagramBot:
-        #Відкриття браузера
-    def __init__(self, username, password):
+    #конструктор __init__; відкриття браузера
+    def __init__(self, username, password, *follower):
         self.username = username
         self.password = password
+        self.follower = follower
         self.driver = webdriver.Chrome()
-        #Закриття браузера
+
+    #Закриття браузера
     def closeBrowser(self):
         self.driver.close()
-        #Вхід в інстаграм
+
+    #Вхід в інстаграм
     def login(self):
         driver = self.driver
         driver.get("https://www.instagram.com/")
@@ -28,15 +32,30 @@ class InstagramBot:
         passworword_elem.send_keys(self.password)
         passworword_elem.send_keys(Keys.RETURN)
         time.sleep(2)
-        #Підписки
-    def subscribe(self, follower):
+
+    #Підписатися на акаунт
+    def subscribe(self):
         driver = self.driver
-        driver.get("https://www.instagram.com/" + follower + "/")
-        time.sleep(2)
-        subscribe = driver.find_elements_by_xpath("//*[contains(text(), 'Подписаться')]")
-        for i in subscribe:
-            i.click()
-        time.sleep(2)
+        follower = self.follower
+        for i in follower:
+            driver.get("https://www.instagram.com/" + i + "/")
+            time.sleep(2)
+            subscribe = driver.find_elements_by_xpath("//*[contains(text(), 'Подписаться')]")
+            subscribe[0].click()
+            time.sleep(2)
 
+    #Відписатися від всіх друзів
+    def unsubscribe(self):
+        driver = self.driver
 
-
+        for i in range(95):
+            driver.get("https://www.instagram.com/" + self.username + "/")
+            subscribe = driver.find_elements_by_xpath("//*[contains(text(), 'Подписки:')]")
+            subscribe[0].click()
+            time.sleep(1)
+            subscribe = driver.find_elements_by_xpath("//*[contains(text(), 'Подписки')]")
+            subscribe[random.randint(1, 5)].click()
+            time.sleep(random.randint(25, 30))
+            confirm = driver.find_elements_by_xpath("//*[contains(text(), 'Отменить подписку')]")
+            confirm[1].click()
+            time.sleep(random.randint(1, 3))
